@@ -1,0 +1,18 @@
+dev:
+  network: master
+  db-relational: master
+  s3: master
+  rds: master
+  redshift: master
+  airflow-master: master
+  airflow-worker: master
+  superset: master
+  spark: master
+  k8s-cluster: master
+  k8s-config: master
+prod:
+  api-lb: master
+  asg: master
+  k8s-cluster: master
+  k8s-config: master
+  network: master

@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "modules/terraform-aws-network": "https://github.com/insight-infrastructure/terraform-aws-network",
+    "modules/terraform-aws-superset": "https://github.com/insight-infrastructure/terraform-aws-superset",
+    "modules/terraform-aws-airflow": "https://github.com/insight-infrastructure/terraform-aws-ec2-airflow"
+  }
+}
