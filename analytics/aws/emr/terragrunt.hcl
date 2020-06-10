@@ -13,7 +13,7 @@ locals {
     ebs_root_volume_size = 10
     visible_to_all_users = true
     release_label = "emr-5.25.0"
-    applications = ["Hive", "Presto"]
+    applications = ["Hive", "Presto", "Spark"]
     create_task_instance_group = false
   }
 
