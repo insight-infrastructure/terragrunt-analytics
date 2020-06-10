@@ -2,6 +2,7 @@ dev:
   emr: master
   k8s-cluster: master
   k8s-config: master
+  mongodb: master
   network: master
   rabbitmq: master
   rds: master
@@ -18,6 +19,7 @@ prod:
   emr: master
   k8s-cluster: master
   k8s-config: master
+  mongodb: master
   network: master
   rabbitmq: master
   rds: master
