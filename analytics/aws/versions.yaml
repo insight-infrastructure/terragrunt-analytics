@@ -1,18 +1,31 @@
 dev:
+  emr: master
+  k8s-cluster: master
+  k8s-config: master
   network: master
-  db-relational: master
-  s3: master
+  rabbitmq: master
   rds: master
   redshift: master
-  airflow-master: master
+  s3: master
+  airflow-cluster: master
   airflow-worker: master
+  airflow-master: master
+  dash: master
   superset: master
   spark: master
-  k8s-cluster: master
-  k8s-config: master
+
 prod:
-  api-lb: master
-  asg: master
+  emr: master
   k8s-cluster: master
   k8s-config: master
   network: master
+  rabbitmq: master
+  rds: master
+  redshift: master
+  s3: master
+  airflow-cluster: master
+  airflow-worker: master
+  airflow-master: master
+  dash: master
+  superset: master
+  spark: master
