@@ -23,5 +23,5 @@ inputs = {
   vpc_id = dependency.network.outputs.vpc_id
   subnet_ids = dependency.network.outputs.public_subnets
   vpc_security_group_ids = [dependency.network.outputs.sg_public_id]
-  playbook_vars_file = file("${path.cwd}/mongodb.yaml")
+  playbook_vars_file = "./mongodb.yaml"
 }
