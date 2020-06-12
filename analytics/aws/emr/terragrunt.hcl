@@ -64,18 +64,18 @@ dependency "s3" {
 inputs = merge({
   name = "emr-cluster"
   vpc_id = dependency.network.outputs.vpc_id
-  subnet_id = dependency.network.outputs.private_subnet_ids[0]
+  subnet_id = dependency.network.outputs.private_subnets[0]
   route_table_id = dependency.network.outputs.private_route_table_ids[0]
   subnet_type = "private"
 
   vpc_name = dependency.network.outputs.vpc_id
   subnet_ids = dependency.network.outputs.public_subnets
-  security_group_id = dependency.network.outputs.vault_security_group_id
+  security_group_id = dependency.network.outputs.sg_public_id
 
   master_allowed_security_groups = [dependency.network.outputs.sg_public_id, dependency.network.outputs.sg_bastion_id]
   slave_allowed_security_groups = [dependency.network.outputs.sg_public_id, dependency.network.outputs.sg_bastion_id]
 
-  key_name = dependency.network.outputs.bastion_key_name
+  key_name = dependency.network.outputs.key_names[0]
 
   log_uri = format("s3n://%s/", dependency.s3.outputs.log_bucket)
-}, local.vars[local.vars.environment], local.vars.common)
+}, local[local.vars.environment], local.common)
