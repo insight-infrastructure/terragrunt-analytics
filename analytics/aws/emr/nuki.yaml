@@ -1,0 +1,93 @@
+---
+
+applications:
+  type: checkbox
+  message: Which apps do you want to install?
+  choices:
+    - spark: Spark
+    - hadoop: Hadoop
+    - hive: Hive
+    - pig: Pig
+    - presto: Presto
+
+######
+# Core
+######
+core_print_:
+  type: print
+  message: |
+    Configuring core instances
+
+core_instance_group_instance_type_family_:
+  type: select
+  message: What instance family do you want to use?
+  choices:
+    - m4
+    - m5
+    - m5d
+  
+core_instance_group_instance_type:
+  type: aws_instance_types
+  region: "{{ nuki.region }}"
+  instance_family: "{{ nuki.core_instance_group_instance_type_family_ }}"
+  
+core_instance_group_instance_count:
+  type: input
+  message: How many instances do you want to create?
+  default: 1
+
+core_instance_group_ebs_size:
+  type: input
+  message: |
+    How big of an EBS volume in GB do you want your core instances to have?
+    Notes:
+      - These are the core machines where your data will reside.
+      - You will be able to configure how many EBS volumes are attached to each instance.
+    
+  default: 10
+
+core_instance_group_ebs_volumes_per_instance:
+  type: input
+  message: |
+    Number of EBS volumes to create on core instances?
+  default: 1
+
+master_print_:
+  type: print
+  message: |
+    Configuring master instances
+
+master_instance_group_instance_type_family_:
+  type: select
+  message: What instance family do you want to use?
+  choices:
+    - m4
+    - m5
+    - m5d
+
+######
+# Core
+######
+master_instance_group_instance_type:
+  type: aws_instance_types
+  region: "{{ nuki.region }}"
+  instance_family: "{{ nuki.master_instance_group_instance_type_family_ }}"
+
+master_instance_group_instance_count:
+  type: input
+  message: How many instances do you want to create?
+  default: 1
+
+master_instance_group_ebs_size:
+  type: input
+  message: |
+    How big of an EBS volume in GB do you want your master instances to have?
+    Note: This is not your data volume only your master node volume size.
+  default: 10
+
+master_instance_group_ebs_volumes_per_instance:
+  type: input
+  message: |
+    Number of EBS volumes to create on master instances?
+    One is generally enough.
+  default: 1

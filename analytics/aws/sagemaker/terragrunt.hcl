@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/insight-infrastructure/terraform-aws-mongodb-ec2.git?ref=${local.vars.versions.mongodb}"
+  source = "github.com/insight-infrastructure/terraform-aws-sagemaker.git?ref=${local.vars.versions.sagemaker}"
 }
 
 include {
@@ -22,6 +22,5 @@ dependency "network" {
 inputs = {
   vpc_id = dependency.network.outputs.vpc_id
   subnet_ids = dependency.network.outputs.public_subnets
-  vpc_security_group_ids = [dependency.network.outputs.sg_public_id]
-  playbook_vars_file = "./mongodb.yaml"
+  additional_security_groups = [dependency.network.outputs.sg_sagemaker_id, dependency.network.outputs.monitoring_security_group_id]
 }

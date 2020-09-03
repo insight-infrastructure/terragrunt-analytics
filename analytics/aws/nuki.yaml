@@ -1,0 +1,109 @@
+---
+
+version_:
+  type: yaml
+  path: versions.yaml
+
+aws_regions_options_:
+  type: aws_regions
+  when: "{{ nuki.provider == 'aws' }}"
+
+region:
+  type: select
+  message: Which AWS region?
+  choices: "{{ nuki.aws_regions_options_ }}"
+  when: "{{ nuki.provider == 'aws' }}"
+
+cluster_name:
+  type: input
+  message: What do you want to call your cluster?
+  default: "{{nuki.namespace}}-{{nuki.environment}}-{{nuki.region}}"
+
+# Main
+components:
+  type: checkbox
+  message: Which components would you like to configure?
+  choices:
+    - vm: Virtual Machines
+    - k8s: Kubernetes
+    - emr: EMR - Spark / Hadoop etc.
+    - DBs: Databases
+    - mq: Message ques
+    - log: Logging
+    - metrics: Metrics
+
+# VMs
+vms:
+  type: checkbox
+  message: What types of VMs would you like to setup?
+  when:
+    - "{{ 'vm' in nuki.components }}"
+  choices:
+    - ec2: Generic ec2
+    - fastapi: FastAPI App
+    - flask: Flask App
+    - airflow-single: Airflow single host
+    - airflow-master: Airflow master
+    - airflow-cluster: Airflow cluster
+    - dash: Dash
+    - spark: Spark
+    - superset: Superset
+
+# VMs
+k8s:
+  type: checkbox
+  message: What types of components would you like to setup?
+  when:
+    - "{{ 'k8s' in nuki.components }}"
+  choices:
+    - consul_enabled: Consul
+    - airflow_enabled: Airflow
+    - prometheus_enabled: Prometheus
+    - elasticsearch_enabled: Elasticsearch
+    - superset_enabled: Superset
+
+# Network
+network:
+  type: nukikata
+  merge: true
+  template: https://github.com/insight-w3f/terraform-analytics-aws-network
+  checkout: "{{ nuki.version_[nuki.environment]['network'] }}"
+  existing_context: "{{ nuki }}"
+
+vm_conf:
+  type: nukikata
+  merge: true
+  loop: "{{ nuki.vms }}"
+  chdir: "{{ nuki.item }}"
+  when:
+    - "{{ 'vm' in nuki.components }}"
+    - "{{ nuki.vms | length > 0 }}"
+  existing_context: "{{ nuki }}"
+
+# EMR
+emr_conf:
+  type: nukikata
+  merge: true
+  chdir: emr
+  when: "{{ 'emr' in nuki.components }}"
+  existing_context: "{{ nuki }}"
+
+
+
+
+# Write Deployment
+write_:
+  type: nukikata
+  context_file: "{{ nuki.scripts_dir_ }}/write.yaml"
+  existing_context: "{{ nuki }}"
+
+# Apply
+apply_confirm_:
+  type: confirm
+  message: Do you want deploy now?
+
+apply_:
+  type: nukikata
+  context_file: "{{ nuki.scripts_dir_ }}/apply.yaml"
+  when: "{{ nuki.apply_confirm_ }}"
+  existing_context: "{{ nuki }}"

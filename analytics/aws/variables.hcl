@@ -1,58 +1,30 @@
 locals {
-  ######################
-  # Deployment Variables
-  ######################
-  namespace = "insight"
-  stack = "analytics"
-  provider = "aws"
-  environment = "dev"
-  region = "us-east-1"
+  run = yamldecode(file(find_in_parent_folders("run.yml")))
+  settings = yamldecode(file(find_in_parent_folders("settings.yml")))
+  secrets = yamldecode(file(find_in_parent_folders("secrets.yml")))
 
-  remote_state_region = "us-east-1"
-  vault_enabled = true
-  consul_enabled = true
-  monitoring_enabled = true
-  prometheus_enabled = true
-  create_public_regional_subdomain = true
-  use_lb = true
+  deployment_id_label_order = local.settings.deployment_id_label_order
+  deployment_id = join(".", [ for i in local.deployment_id_label_order : lookup(local.run, i)])
+  deployment_vars = yamldecode(file("${find_in_parent_folders("deployments")}/${local.deployment_id}.yaml"))
 
-  num_azs = 3
-
-  ###################
-  # Environment Logic
-  ###################
-  env_vars = {
-    dev = {
-      airflow_instance_type = "t2.small"
-    }
-    prod = {
-      airflow_instance_type = "c5.large"
-    }
-  }[local.environment]
+  ssh_profile_name = local.deployment_vars.ssh_profile_name
+  ssh_profile = local.secrets.ssh_profiles[index(local.secrets.ssh_profiles.*.name, local.ssh_profile_name)]
 
   # Imports
-  versions = yamldecode(file("${get_parent_terragrunt_dir()}/versions.yaml"))[local.environment]
-  secrets = yamldecode(file("${get_parent_terragrunt_dir()}/secrets.yaml"))[local.environment]
+  versions = yamldecode(file("versions.yaml"))[local.run.environment]
 
-  ###################
-  # Label Boilerplate
-  ###################
-  label_map = {
-    namespace = local.namespace
-    stack = local.stack
-    provider = local.provider
-    environment = local.environment
-    region = local.region
+  # Labels
+  id_label_order = local.settings.id_label_order
+  id = join("-", [ for i in local.id_label_order : lookup(local.run, i)])
+  name_label_order = local.settings.name_label_order
+  name = join("", [ for i in local.name_label_order : title(lookup(local.run, i))])
+
+  tags_clouds = {
+    aws = { for t in local.remote_state_path_label_order : t => lookup(local.run, t) }
   }
+  tags = lookup(local.tags_clouds, local.run.provider)
 
-  remote_state_path_label_order = ["namespace", "stack", "provider", "environment", "region"]
-  remote_state_path = join("/", [ for i in local.remote_state_path_label_order : lookup(local.label_map, i)])
-
-  id_label_order = ["namespace", "stack", "environment"]
-  id = join("-", [ for i in local.id_label_order : lookup(local.label_map, i)])
-
-  name_label_order = ["stack", "environment"]
-  name = join("", [ for i in local.name_label_order : title(lookup(local.label_map, i))])
-
-  tags = { for t in local.remote_state_path_label_order : t => lookup(local.label_map, t) }
+  # Remote State
+  remote_state_path_label_order = local.settings.remote_state_path_label_order
+  remote_state_path = join("/", [ for i in local.remote_state_path_label_order : lookup(local.run, i)])
 }

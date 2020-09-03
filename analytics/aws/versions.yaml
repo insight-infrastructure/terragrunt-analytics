@@ -8,6 +8,7 @@ dev:
   rds: master
   redshift: master
   s3: master
+  sagemaker: master
   airflow-cluster: master
   airflow-worker: master
   airflow-master: master
@@ -25,6 +26,7 @@ prod:
   rds: master
   redshift: master
   s3: master
+  sagemaker: master
   airflow-cluster: master
   airflow-worker: master
   airflow-master: master

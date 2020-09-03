@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/insight-infrastructure/terraform-aws-network.git?ref=${local.vars.versions.network}"
+  source = "github.com/insight-infrastructure/terraform-aws-analytics-network.git?ref=${local.vars.versions.network}"
 }
 
 include {

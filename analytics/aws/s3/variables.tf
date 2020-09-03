@@ -1,6 +1,12 @@
-variable "log_bucket_name" {}
+variable "log_bucket_name" {
+  default = ""
+}
 
-variable "configs_bucket_name" {}
+variable "configs_bucket_name" {
+  default = ""
+}
+
 variable "data_bucket_names" {
+  default = []
   type = list(string)
 }

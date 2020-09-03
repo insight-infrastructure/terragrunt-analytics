@@ -13,7 +13,7 @@ locals {
     ebs_root_volume_size = 10
     visible_to_all_users = true
     release_label = "emr-5.25.0"
-    applications = ["Hive", "Presto", "Spark"]
+//    applications = ["Hive", "Presto", "Spark"]
     create_task_instance_group = false
   }
 
@@ -35,7 +35,6 @@ locals {
     core_instance_group_instance_type = "m4.large"
     core_instance_group_instance_count = 1
     core_instance_group_ebs_size = 10
-    core_instance_group_ebs_type = "gp2"
     core_instance_group_ebs_volumes_per_instance = 1
 
     master_instance_group_instance_type = "m4.large"
@@ -64,18 +63,21 @@ dependency "s3" {
 inputs = merge({
   name = "emr-cluster"
   vpc_id = dependency.network.outputs.vpc_id
-  subnet_id = dependency.network.outputs.private_subnet_ids[0]
+  subnet_id = dependency.network.outputs.private_subnets[0]
   route_table_id = dependency.network.outputs.private_route_table_ids[0]
   subnet_type = "private"
 
+  core_instance_group_ebs_type = "gp2"
+  master_instance_group_ebs_type = "gp2"
+
   vpc_name = dependency.network.outputs.vpc_id
   subnet_ids = dependency.network.outputs.public_subnets
-  security_group_id = dependency.network.outputs.vault_security_group_id
+  security_group_id = dependency.network.outputs.sg_public_id
 
   master_allowed_security_groups = [dependency.network.outputs.sg_public_id, dependency.network.outputs.sg_bastion_id]
   slave_allowed_security_groups = [dependency.network.outputs.sg_public_id, dependency.network.outputs.sg_bastion_id]
 
-  key_name = dependency.network.outputs.bastion_key_name
+  key_name = dependency.network.outputs.key_names[0]
 
   log_uri = format("s3n://%s/", dependency.s3.outputs.log_bucket)
-}, local.vars[local.vars.environment], local.vars.common)
+}, local[local.vars.environment], local.common)

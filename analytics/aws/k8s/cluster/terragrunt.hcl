@@ -1,5 +1,4 @@
 terraform {
-//  source = "github.com/insight-w3f/terraform-polkadot-aws-k8s-cluster.git?ref=${local.vars.versions.k8s-cluster}"
   source = "github.com/terraform-aws-modules/terraform-aws-eks.git"
 }
 
