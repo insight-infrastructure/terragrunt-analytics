@@ -13,7 +13,7 @@ locals {
     ebs_root_volume_size = 10
     visible_to_all_users = true
     release_label = "emr-5.25.0"
-    applications = ["Hive", "Presto", "Spark"]
+//    applications = ["Hive", "Presto", "Spark"]
     create_task_instance_group = false
   }
 
@@ -35,7 +35,6 @@ locals {
     core_instance_group_instance_type = "m4.large"
     core_instance_group_instance_count = 1
     core_instance_group_ebs_size = 10
-    core_instance_group_ebs_type = "gp2"
     core_instance_group_ebs_volumes_per_instance = 1
 
     master_instance_group_instance_type = "m4.large"
@@ -67,6 +66,9 @@ inputs = merge({
   subnet_id = dependency.network.outputs.private_subnets[0]
   route_table_id = dependency.network.outputs.private_route_table_ids[0]
   subnet_type = "private"
+
+  core_instance_group_ebs_type = "gp2"
+  master_instance_group_ebs_type = "gp2"
 
   vpc_name = dependency.network.outputs.vpc_id
   subnet_ids = dependency.network.outputs.public_subnets
