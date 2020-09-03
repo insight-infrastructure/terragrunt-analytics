@@ -1,0 +1,24 @@
+deployment_id_label_order:
+  - namespace
+  - provider
+  - environment
+  - region
+  - deployment_id
+
+remote_state_path_label_order:
+  - namespace
+  - provider
+  - environment
+  - region
+  - deployment_id
+
+id_label_order:
+  - namespace
+  - environment
+
+short_id_label_order:
+  - environment
+
+name_label_order:
+  - namespace
+  - environment
