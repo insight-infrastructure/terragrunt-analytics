@@ -1,12 +1,12 @@
 {
   "projects": {
-    "modules/terraform-aws-network": "https://github.com/insight-infrastructure/terraform-aws-network",
-    "modules/terraform-aws-ec2-airflow": "https://github.com/insight-infrastructure/terraform-aws-ec2-airflow",
-    "modules/terraform-aws-ec2-superset": "https://github.com/insight-infrastructure/terraform-aws-ec2-superset",
-    "modules/terraform-aws-sagemaker": "https://github.com/insight-infrastructure/terraform-aws-sagemaker",
-    "modules/terraform-aws-mongodb-ec2": "https://github.com/insight-infrastructure/terraform-aws-mongodb-ec2",
-    "modules/terraform-aws-ec2-dash": "https://github.com/insight-infrastructure/terraform-aws-ec2-dash",
-    "modules/terraform-aws-ec2-flask-stack": "https://github.com/insight-infrastructure/terraform-aws-flask-stack",
-    "modules/terraform-aws-msk": "https://github.com/insight-infrastructure/terraform-aws-msk"
+    "modules/terraform/terraform-aws-network": "https://github.com/insight-infrastructure/terraform-aws-network",
+    "modules/terraform/terraform-aws-ec2-airflow": "https://github.com/insight-infrastructure/terraform-aws-ec2-airflow",
+    "modules/terraform/terraform-aws-ec2-superset": "https://github.com/insight-infrastructure/terraform-aws-ec2-superset",
+    "modules/terraform/terraform-aws-sagemaker": "https://github.com/insight-infrastructure/terraform-aws-sagemaker",
+    "modules/terraform/terraform-aws-mongodb-ec2": "https://github.com/insight-infrastructure/terraform-aws-mongodb-ec2",
+    "modules/terraform/terraform-aws-ec2-dash": "https://github.com/insight-infrastructure/terraform-aws-ec2-dash",
+    "modules/terraform/terraform-aws-ec2-flask-stack": "https://github.com/insight-infrastructure/terraform-aws-flask-stack",
+    "modules/terraform/terraform-aws-msk": "https://github.com/insight-infrastructure/terraform-aws-msk"
   }
 }
